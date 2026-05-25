@@ -1,10 +1,12 @@
 from sqlalchemy import (
     Column,
+    DateTime,
+    ForeignKey,
     Integer,
     String,
-    DateTime,
-    ForeignKey
+    Text
 )
+from sqlalchemy.orm import relationship
 
 from datetime import datetime
 
@@ -16,12 +18,14 @@ class TicketEvent(Base):
 
     id = Column(
         Integer,
-        primary_key=True
+        primary_key=True,
+        index=True
     )
 
     ticket_id = Column(
         Integer,
-        ForeignKey("tickets.id")
+        ForeignKey("tickets.id"),
+        nullable=False
     )
 
     employee_id = Column(
@@ -35,7 +39,12 @@ class TicketEvent(Base):
 
     new_status = Column(String)
 
+    note = Column(Text)
+
     timestamp = Column(
         DateTime,
-        default=datetime.utcnow
+        default=datetime.utcnow,
+        nullable=False
     )
+
+    ticket = relationship("Ticket")

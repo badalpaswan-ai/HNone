@@ -1,9 +1,10 @@
 from sqlalchemy import (
+    Boolean,
     Column,
     Integer,
-    String,
-    Boolean
+    String
 )
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
@@ -13,26 +14,46 @@ class Employee(Base):
 
     id = Column(
         Integer,
-        primary_key=True
+        primary_key=True,
+        index=True
     )
 
-    name = Column(String)
+    name = Column(
+        String,
+        nullable=False
+    )
 
     email = Column(
         String,
-        unique=True
+        unique=True,
+        nullable=False,
+        index=True
     )
 
-    department = Column(String)
+    department = Column(
+        String,
+        nullable=False,
+        index=True
+    )
 
-    role = Column(String)
+    role = Column(
+        String,
+        nullable=False
+    )
 
     is_active = Column(
         Boolean,
-        default=True
+        default=True,
+        nullable=False
     )
 
     current_workload = Column(
         Integer,
-        default=0
+        default=0,
+        nullable=False
+    )
+
+    tickets = relationship(
+        "Ticket",
+        back_populates="assigned_employee"
     )
